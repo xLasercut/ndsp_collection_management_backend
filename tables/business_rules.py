@@ -34,3 +34,4 @@ class CollectionBusinessRuleField(DeclarativeBase):
     collection_business_rule_id: Mapped[str]
     complex_rule_field_id: Mapped[str]
     field_id: Mapped[str]
+    field_value: Mapped[str]
