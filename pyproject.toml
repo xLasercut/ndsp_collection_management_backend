@@ -1,0 +1,17 @@
+[project]
+name = "ndsp-collection-management-backend"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Tim Wang",email = "tianxun.wang1@nhs.net"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "sqlalchemy (==2.0.50)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
