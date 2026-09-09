@@ -95,6 +95,22 @@ docs = ["Sphinx", "furo"]
 test = ["objgraph", "psutil", "setuptools"]
 
 [[package]]
+name = "pymysql"
+version = "1.2.0"
+description = "Pure Python MySQL Driver"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "pymysql-1.2.0-py3-none-any.whl", hash = "sha256:62169ce6d5510f08e140c5e7990ee884a9764024e4a9a27b2cc11f1099322ae0"},
+    {file = "pymysql-1.2.0.tar.gz", hash = "sha256:6c7b17ca686988104d7426c27895b455cdeea3e9d3ceb1270f0c3704fead8c33"},
+]
+
+[package.extras]
+ed25519 = ["PyNaCl (>=1.6.2)"]
+rsa = ["cryptography (>=46.0.7)"]
+
+[[package]]
 name = "sqlalchemy"
 version = "2.0.50"
 description = "Database Abstraction Library"
@@ -206,4 +222,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "687bc7747122dc67a64e621c60b136e2b9f844c7cc5256017b9453407cd925a7"
+content-hash = "a1d2906a0a5639641fe32807d83e38e5c562732c479dd45319bae1dcb6e8fff3"

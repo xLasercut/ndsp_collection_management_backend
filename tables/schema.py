@@ -1,30 +1,25 @@
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-class CollectionDataset(DeclarativeBase):
-    __tablename__ = 'collection_dataset'
+from tables.common import Base
 
-    dataset_id: Mapped[str] = mapped_column('dataset_id', primary_key=True)
+
+class CollectionSpecification(Base):
+    __tablename__ = 'collection_specification'
+
+    specification_id: Mapped[str] = mapped_column('specification_id', primary_key=True)
     collection_id: Mapped[str] = mapped_column(ForeignKey('collection.collection_id'), primary_key=True)
-    schema_id: Mapped[str] = mapped_column(ForeignKey('schema.schema_id'))
-    dataset_name: Mapped[str]
+    specification_name: Mapped[str]
     reporting_fields: Mapped[str]
 
 
-class CollectionSchema(DeclarativeBase):
-    __tablename__ = 'collection_schema'
+class CollectionSpecificationColumn(Base):
+    __tablename__ = 'collection_specification_column'
 
-    schema_id: Mapped[str] = mapped_column('schema_id', primary_key=True)
-    collection_id: Mapped[str] = mapped_column(ForeignKey('collection.collection_id'), primary_key=True)
-    schema_name: Mapped[str]
-
-
-class SchemaField(DeclarativeBase):
-    __tablename__ = 'schema_field'
-
-    field_id: Mapped[str] = mapped_column('field_id', primary_key=True)
-    schema_id: Mapped[str] = mapped_column(ForeignKey('schema.schema_id'))
-    schema_field_name: Mapped[str]
+    collection_specification_column_id: Mapped[str] = mapped_column('collection_specification_column_id',
+                                                                    primary_key=True)
+    specification_id: Mapped[str] = mapped_column(ForeignKey('collection_specification.specification_id'))
+    column_name: Mapped[str]
     data_item_id: Mapped[str]
     mandatory: Mapped[bool]
     validation_failure_error_code: Mapped[str]
@@ -32,33 +27,33 @@ class SchemaField(DeclarativeBase):
     validation_failure_response: Mapped[str]
 
 
-class DataItem(DeclarativeBase):
+class DataItem(Base):
     __tablename__ = 'data_item'
 
     data_item_id: Mapped[str] = mapped_column('data_item_id', primary_key=True)
-    data_item_name: Mapped[str]
-    data_item_base_type: Mapped[str]
+    display_name: Mapped[str]
+    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'), primary_key=True)
 
 
-class DataItemAvailableConstraint(DeclarativeBase):
-    __tablename__ = 'data_item_available_constraint'
+class DataItemType(Base):
+    __tablename__ = 'data_item_type'
 
-    data_item_constraint_id: Mapped[str] = mapped_column(ForeignKey('data_item_constraint.data_item_constraint_id'), primary_key=True)
-    data_item_id: Mapped[str] = mapped_column(ForeignKey('data_item.data_item_id'), primary_key=True)
+    data_item_type: Mapped[str] = mapped_column('data_item_type', primary_key=True)
+    display_name: Mapped[str]
 
-class DataItemConstraint(DeclarativeBase):
+
+class DataItemAllowedConstraint(Base):
+    __tablename__ = 'data_item_allowed_constraint'
+
+    constraint_type: Mapped[str] = mapped_column('constraint_type', primary_key=True)
+    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'), primary_key=True)
+    display_name: Mapped[str]
+
+
+class DataItemConstraint(Base):
     __tablename__ = 'data_item_constraint'
 
-    data_item_constraint_id: Mapped[str] = mapped_column('data_item_constraint_id', primary_key=True)
-    data_item_constraint_type: Mapped[str]
-    constraint_default_value: Mapped[str]
-    constraint_name: Mapped[str]
-
-class SchemaFieldConstraintValue(DeclarativeBase):
-    __tablename__ = 'schema_field_constraint_value'
-
-    pk: Mapped[str] = mapped_column('pk', primary_key=True)
+    data_item_type: Mapped[str] = mapped_column('data_item_type.data_item_type', primary_key=True)
     data_item_id: Mapped[str] = mapped_column(ForeignKey('data_item.data_item_id'), primary_key=True)
-    data_item_constraint_id: Mapped[str] = mapped_column(ForeignKey('data_item_constraint.data_item_constraint_id'),
-                                                         primary_key=True)
+    constraint_type: Mapped[str] = mapped_column(ForeignKey('data_item_allowed_constraint.constraint_type'), primary_key=True)
     constraint_value: Mapped[str]
