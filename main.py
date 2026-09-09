@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from tables.data.collection import collections
+from tables.data.collection_specification import collection_specifications
 from tables.data.data_item import data_item_types, data_items, data_item_type_allowed_constraints, \
     data_item_constraints
 from tables.functions import create_tables, drop_tables
@@ -27,6 +28,10 @@ def generate_test_data(session: Session):
 
     session.add_all(collections)
     session.commit()
+
+    for items in collection_specifications:
+        session.add_all(items)
+        session.commit()
 
 
 with Session(engine) as session:

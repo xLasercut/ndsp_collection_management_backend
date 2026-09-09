@@ -10,7 +10,6 @@ class CollectionSpecification(Base):
     specification_id: Mapped[str] = mapped_column(String(100), primary_key=True)
     collection_id: Mapped[str] = mapped_column(ForeignKey('collection.collection_id'))
     specification_name: Mapped[str] = mapped_column(String(100))
-    reporting_fields: Mapped[str] = mapped_column(String(100))
 
 
 class CollectionSpecificationColumn(Base):
