@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from tables.common import Base
@@ -45,13 +45,17 @@ class DataItemAllowedConstraint(Base):
     __tablename__ = 'data_item_allowed_constraint'
 
     constraint_type: Mapped[str] = mapped_column(String(100), primary_key=True)
-    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'), primary_key=True)
+    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'))
     display_name: Mapped[str] = mapped_column(String(100))
+
+    UniqueConstraint('constraint_type', 'data_item_type')
 
 
 class DataItemConstraint(Base):
     __tablename__ = 'data_item_constraint'
 
     data_item_id: Mapped[str] = mapped_column(ForeignKey('data_item.data_item_id'), primary_key=True)
-    constraint_type: Mapped[str] = mapped_column(String(100), primary_key=True)
+    constraint_type: Mapped[str] = mapped_column(ForeignKey('data_item_allowed_constraint.constraint_type'))
     constraint_value: Mapped[str] = mapped_column(String(100))
+
+    UniqueConstraint('data_item_id', 'constraint_type')
