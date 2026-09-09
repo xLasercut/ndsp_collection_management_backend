@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
+from tables.data.collection import collections
 from tables.data.data_item import data_item_types, data_items, data_item_type_allowed_constraints, \
     data_item_constraints
 from tables.functions import create_tables, drop_tables
@@ -22,6 +23,9 @@ def generate_test_data(session: Session):
     session.commit()
 
     session.add_all(data_item_constraints)
+    session.commit()
+
+    session.add_all(collections)
     session.commit()
 
 
