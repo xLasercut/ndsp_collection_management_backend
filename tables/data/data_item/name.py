@@ -7,7 +7,15 @@ data_item_name = DataItem(
 )
 
 data_item_name_constraint = DataItemConstraint(
+    data_item_constraint_id="name_length",
     data_item_id="name",
     constraint_type="length",
     constraint_value="10"
+)
+
+data_item_name_regex_constraint = DataItemConstraint(
+    data_item_constraint_id="name_regex",
+    data_item_id="name",
+    constraint_type="regex",
+    constraint_value="^[A-Za-z]+$"
 )

@@ -1,60 +1,60 @@
-from sqlalchemy import ForeignKey, String, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import UniqueConstraint
 
-from tables.common import Base
+from sqlmodel import SQLModel, Field
 
 
-class CollectionSpecification(Base):
+class CollectionSpecification(SQLModel, table=True):
     __tablename__ = 'collection_specification'
 
-    specification_id: Mapped[str] = mapped_column(String(100), primary_key=True)
-    collection_id: Mapped[str] = mapped_column(ForeignKey('collection.collection_id'))
-    specification_name: Mapped[str] = mapped_column(String(100))
+    specification_id: str = Field(primary_key=True)
+    collection_id: str
+    specification_name: str
 
 
-class CollectionSpecificationColumn(Base):
-    __tablename__ = 'collection_specification_column'
+class CollectionSpecificationColumn(SQLModel, table=True):
+    __tablename__ = 'data_item_column_specification'
 
-    collection_specification_column_id: Mapped[str] = mapped_column(String(100), primary_key=True)
-    specification_id: Mapped[str] = mapped_column(ForeignKey('collection_specification.specification_id'))
-    column_name: Mapped[str] = mapped_column(String(100))
-    data_item_id: Mapped[str] = mapped_column(String(100))
-    mandatory: Mapped[bool]
-    validation_failure_error_code: Mapped[str] = mapped_column(String(100))
-    validation_failure_error_message: Mapped[str] = mapped_column(String(100))
-    validation_failure_response: Mapped[str] = mapped_column(String(100))
+    collection_specification_column_id: str = Field(primary_key=True)
+    specification_id: str = Field(foreign_key='collection_specification.specification_id')
+    column_name: str
+    data_item_id: str
+    mandatory: bool
+    validation_failure_error_code: str
+    validation_failure_error_message: str
+    validation_failure_response: str
 
 
-class DataItem(Base):
+class DataItem(SQLModel, table=True):
     __tablename__ = 'data_item'
 
-    data_item_id: Mapped[str] = mapped_column(String(100), primary_key=True)
-    display_name: Mapped[str] = mapped_column(String(100))
-    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'))
+    data_item_id: str = Field(primary_key=True)
+    display_name: str
+    data_item_type: str = Field(foreign_key='data_item_type.data_item_type')
 
 
-class DataItemType(Base):
+class DataItemType(SQLModel, table=True):
     __tablename__ = 'data_item_type'
 
-    data_item_type: Mapped[str] = mapped_column(String(100), primary_key=True)
-    display_name: Mapped[str] = mapped_column(String(100))
+    data_item_type: str = Field(primary_key=True)
+    display_name: str
 
 
-class DataItemAllowedConstraint(Base):
+class DataItemAllowedConstraint(SQLModel, table=True):
     __tablename__ = 'data_item_allowed_constraint'
 
-    constraint_type: Mapped[str] = mapped_column(String(100), primary_key=True)
-    data_item_type: Mapped[str] = mapped_column(ForeignKey('data_item_type.data_item_type'))
-    display_name: Mapped[str] = mapped_column(String(100))
+    constraint_type: str = Field(primary_key=True)
+    data_item_type: str = Field(foreign_key='data_item_type.data_item_type')
+    display_name: str
 
     UniqueConstraint('constraint_type', 'data_item_type')
 
 
-class DataItemConstraint(Base):
+class DataItemConstraint(SQLModel, table=True):
     __tablename__ = 'data_item_constraint'
 
-    data_item_id: Mapped[str] = mapped_column(ForeignKey('data_item.data_item_id'), primary_key=True)
-    constraint_type: Mapped[str] = mapped_column(ForeignKey('data_item_allowed_constraint.constraint_type'))
-    constraint_value: Mapped[str] = mapped_column(String(100))
+    data_item_constraint_id: str = Field(primary_key=True)
+    data_item_id: str = Field(foreign_key='data_item.data_item_id')
+    constraint_type: str = Field(foreign_key='data_item_allowed_constraint.constraint_type')
+    constraint_value: str
 
     UniqueConstraint('data_item_id', 'constraint_type')

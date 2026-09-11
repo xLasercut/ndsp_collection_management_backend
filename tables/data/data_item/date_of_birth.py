@@ -7,6 +7,7 @@ data_item_date_of_birth = DataItem(
 )
 
 data_item_date_of_birth_format_constraint = DataItemConstraint(
+    data_item_constraint_id="dob_format",
     data_item_id="date_of_birth",
     constraint_type="format",
     constraint_value="%y-%m-%d"

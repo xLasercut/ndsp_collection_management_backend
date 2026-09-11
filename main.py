@@ -1,11 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy import text
+from sqlmodel import create_engine, select, Session
 
 from tables.data.collection import collections
 from tables.data.collection_specification import collection_specifications
 from tables.data.data_item import data_item_types, data_items, data_item_type_allowed_constraints, \
     data_item_constraints
 from tables.functions import create_tables, drop_tables
+from tables.schema import DataItem, DataItemConstraint
 
 engine = create_engine('mysql+pymysql://root:example@localhost/ndsp', echo=True)
 
@@ -36,3 +37,4 @@ def generate_test_data(session: Session):
 
 with Session(engine) as session:
     generate_test_data(session)
+

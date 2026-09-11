@@ -1,11 +1,8 @@
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String
-
-from tables.common import Base
+from sqlmodel import SQLModel, Field
 
 
-class Collection(Base):
+class Collection(SQLModel, table=True):
     __tablename__ = 'collection'
 
-    collection_id: Mapped[str] = mapped_column(String(100), primary_key=True)
-    name: Mapped[str] = mapped_column(String(100))
+    collection_id: str = Field(primary_key=True)
+    name: str

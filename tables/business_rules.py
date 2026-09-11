@@ -1,8 +1,9 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlmodel import SQLModel
 
 
-class ComplexRule(DeclarativeBase):
+class ComplexRule(SQLModel, table=True):
     __tablename__ = 'complex_rule'
 
     complex_rule_id: Mapped[str] = mapped_column('complex_rule_id', primary_key=True)
@@ -10,7 +11,7 @@ class ComplexRule(DeclarativeBase):
     complex_rule_expression: Mapped[str]
 
 
-class ComplexRuleAvailableField(DeclarativeBase):
+class ComplexRuleAvailableField(SQLModel, table=True):
     __tablename__ = 'complex_rule_available_field'
 
     complex_rule_field_id: Mapped[str] = mapped_column('complex_rule_field_id', primary_key=True)
@@ -19,7 +20,7 @@ class ComplexRuleAvailableField(DeclarativeBase):
     complex_rule_field_type: Mapped[str]
 
 
-class CollectionBusinessRule(DeclarativeBase):
+class CollectionBusinessRule(SQLModel, table=True):
     __tablename__ = 'collection_business_rule'
 
     collection_business_rule_id: Mapped[str] = mapped_column('collection_business_rule_id', primary_key=True)
@@ -27,7 +28,7 @@ class CollectionBusinessRule(DeclarativeBase):
     complex_rule_id: Mapped[str] = mapped_column('complex_rule_id')
 
 
-class CollectionBusinessRuleField(DeclarativeBase):
+class CollectionBusinessRuleField(SQLModel, table=True):
     __tablename__ = 'collection_business_rule_field'
 
     pk: Mapped[str] = mapped_column('pk', primary_key=True)
